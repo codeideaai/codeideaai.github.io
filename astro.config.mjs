@@ -1,0 +1,36 @@
+// @ts-check
+
+import sitemap from '@astrojs/sitemap';
+import { defineConfig, fontProviders } from 'astro/config';
+
+// https://astro.build/config
+export default defineConfig({
+	// Set SITE_URL to the production origin when deploying, for example:
+	// SITE_URL=https://blog.example.com npm run build
+	site: process.env.SITE_URL ?? 'http://localhost:4321',
+	integrations: [sitemap()],
+	fonts: [
+		{
+			provider: fontProviders.local(),
+			name: 'Atkinson',
+			cssVariable: '--font-atkinson',
+			fallbacks: ['sans-serif'],
+			options: {
+				variants: [
+					{
+						src: ['./src/assets/fonts/atkinson-regular.woff'],
+						weight: 400,
+						style: 'normal',
+						display: 'swap',
+					},
+					{
+						src: ['./src/assets/fonts/atkinson-bold.woff'],
+						weight: 700,
+						style: 'normal',
+						display: 'swap',
+					},
+				],
+			},
+		},
+	],
+});

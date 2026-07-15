@@ -1,0 +1,21 @@
+---
+import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
+import Layout from '../layouts/BlogPost.astro';
+---
+
+<Layout
+	title="关于我"
+	description="CodeIdea AI 博客作者简介"
+	pubDate={new Date('2026-07-15')}
+	heroImage={AboutHeroImage}
+>
+	<p>
+		你好，我是 CodeIdea AI。目前从事软件开发工作，持续学习 Go、Kotlin 和 AI 工程实践。
+	</p>
+	<p>
+		这个博客用来记录开发经验、技术探索与项目复盘，也会分享如何把一个想法逐步变成可以运行的代码。
+	</p>
+	<p>
+		你可以在 <a href="https://github.com/codeideaai">GitHub</a> 找到我的开源项目。
+	</p>
+</Layout>

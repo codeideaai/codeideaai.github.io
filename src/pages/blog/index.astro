@@ -1,0 +1,194 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { BLOG_REPOSITORIES, SITE_TITLE } from '../../consts';
+
+const pageDescription = '按技术方向浏览 CodeIdea AI 的博客内容。';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title={`Blog | ${SITE_TITLE}`} description={pageDescription} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<header class="page-heading">
+				<p class="eyebrow">BLOG COLLECTIONS</p>
+				<h1>选择一个技术方向</h1>
+				<p>文章按语言和平台分别维护，选择下面的专题进入对应的博客站点。</p>
+			</header>
+
+			<ul class="repository-grid">
+				{
+					BLOG_REPOSITORIES.map((repository) => (
+						<li>
+							<a
+								class={`repository-card ${repository.accent}`}
+								href={repository.href}
+								target="_blank"
+								rel="noreferrer"
+							>
+								<div class="card-topline">
+									<span class="language-mark" aria-hidden="true">{repository.name}</span>
+									<span class="external-arrow" aria-hidden="true">↗</span>
+								</div>
+								<p class="tagline">{repository.tagline}</p>
+								<h2>{repository.name} 博客</h2>
+								<p class="description">{repository.description}</p>
+								<span class="visit-link">进入专题博客</span>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	main {
+		width: min(960px, calc(100% - 2rem));
+		padding-top: 4rem;
+		padding-bottom: 5rem;
+	}
+	.page-heading {
+		max-width: 680px;
+		margin-bottom: 3rem;
+	}
+	.eyebrow {
+		margin: 0 0 0.75rem;
+		color: rgb(var(--accent));
+		font-size: 0.78rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+	}
+	h1 {
+		margin: 0 0 1rem;
+		font-size: clamp(2.35rem, 7vw, 4.2rem);
+		letter-spacing: -0.045em;
+		line-height: 1.05;
+	}
+	.page-heading > p:last-child {
+		margin: 0;
+		color: rgb(var(--gray));
+		font-size: 1.08rem;
+	}
+	.repository-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.5rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.repository-card {
+		position: relative;
+		display: flex;
+		min-height: 330px;
+		flex-direction: column;
+		padding: 2rem;
+		overflow: hidden;
+		color: rgb(var(--black));
+		border: 1px solid rgba(var(--gray-light), 0.7);
+		border-radius: 24px;
+		background: white;
+		box-shadow: 0 12px 34px rgba(var(--gray), 0.1);
+		text-decoration: none;
+		transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+	}
+	.repository-card::after {
+		position: absolute;
+		right: -25%;
+		bottom: -45%;
+		width: 280px;
+		height: 280px;
+		border-radius: 50%;
+		background: var(--card-glow);
+		content: '';
+		filter: blur(8px);
+		opacity: 0.2;
+		pointer-events: none;
+	}
+	.repository-card.c {
+		--card-accent: #3155a6;
+		--card-glow: #6f8fdf;
+	}
+	.repository-card.ios {
+		--card-accent: #c44880;
+		--card-glow: #f08db7;
+	}
+	.repository-card:hover {
+		transform: translateY(-5px);
+		border-color: var(--card-accent);
+		box-shadow: 0 20px 45px rgba(var(--gray), 0.18);
+	}
+	.repository-card:focus-visible {
+		outline: 3px solid var(--card-accent);
+		outline-offset: 4px;
+	}
+	.card-topline {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		margin-bottom: 2.5rem;
+	}
+	.language-mark {
+		display: grid;
+		width: 64px;
+		height: 64px;
+		place-items: center;
+		color: white;
+		border-radius: 18px;
+		background: var(--card-accent);
+		font-size: 1.35rem;
+		font-weight: 700;
+		letter-spacing: -0.04em;
+	}
+	.external-arrow {
+		color: var(--card-accent);
+		font-size: 1.6rem;
+		transition: transform 180ms ease;
+	}
+	.repository-card:hover .external-arrow {
+		transform: translate(3px, -3px);
+	}
+	.tagline {
+		margin: 0 0 0.4rem;
+		color: var(--card-accent);
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+	h2 {
+		margin: 0 0 0.75rem;
+		font-size: 2rem;
+		letter-spacing: -0.025em;
+	}
+	.description {
+		margin: 0 0 2rem;
+		color: rgb(var(--gray));
+	}
+	.visit-link {
+		z-index: 1;
+		margin-top: auto;
+		color: var(--card-accent);
+		font-size: 0.92rem;
+		font-weight: 700;
+	}
+	@media (max-width: 720px) {
+		main {
+			padding-top: 2.5rem;
+		}
+		.repository-grid {
+			grid-template-columns: 1fr;
+		}
+		.repository-card {
+			min-height: 300px;
+		}
+	}
+</style>

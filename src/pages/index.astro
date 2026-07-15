@@ -1,0 +1,383 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { BLOG_REPOSITORIES, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="hero">
+				<p class="eyebrow">DEVELOPER · WRITER · BUILDER</p>
+				<h1>把想法变成<br /><span>可以运行的代码。</span></h1>
+				<p class="hero-description">
+					这里记录底层技术、Apple 平台开发，以及从问题到实现的真实工程过程。
+				</p>
+				<div class="hero-actions">
+					<a class="button primary" href="/blog">浏览博客</a>
+					<a
+						class="button secondary"
+						href="https://github.com/codeideaai"
+						target="_blank"
+						rel="noreferrer">访问 GitHub <span aria-hidden="true">↗</span></a
+					>
+				</div>
+			</section>
+
+			<section class="section topics" aria-labelledby="topics-title">
+				<div class="section-heading">
+					<div>
+						<p class="section-label">TOPICS</p>
+						<h2 id="topics-title">技术专题</h2>
+					</div>
+					<a href="/blog">查看全部 <span aria-hidden="true">→</span></a>
+				</div>
+				<div class="topic-grid">
+					{
+						BLOG_REPOSITORIES.map((repository) => (
+							<a
+								class={`topic-card ${repository.accent}`}
+								href={repository.href}
+								target="_blank"
+								rel="noreferrer"
+							>
+								<span class="topic-mark" aria-hidden="true">{repository.name}</span>
+								<div>
+									<p>{repository.tagline}</p>
+									<h3>{repository.name} 博客</h3>
+									<span>{repository.description}</span>
+								</div>
+								<span class="arrow" aria-hidden="true">↗</span>
+							</a>
+						))
+					}
+				</div>
+			</section>
+
+			<section class="section updates" aria-labelledby="updates-title">
+				<div class="section-heading">
+					<div>
+						<p class="section-label">LATEST</p>
+						<h2 id="updates-title">最近更新</h2>
+					</div>
+				</div>
+				<div class="update-list">
+					{
+						BLOG_REPOSITORIES.map((repository) => (
+							<a href={repository.href} target="_blank" rel="noreferrer">
+								<span class={`update-tag ${repository.accent}`}>{repository.name}</span>
+								<div>
+									<strong>{repository.name} 专题博客</strong>
+									<span>内容持续整理与更新中</span>
+								</div>
+								<span class="update-arrow" aria-hidden="true">→</span>
+							</a>
+						))
+					}
+				</div>
+				<p class="updates-note">接入两个专题博客的 RSS 后，这里会自动展示最新文章。</p>
+			</section>
+
+			<section class="about-card" aria-labelledby="about-title">
+				<div>
+					<p class="section-label">ABOUT</p>
+					<h2 id="about-title">你好，我是 CodeIdea AI。</h2>
+				</div>
+				<div>
+					<p>
+						我是一名软件开发者，关注底层技术、移动开发和 AI 工程。这个网站用于整理学习过程、项目经验和技术思考。
+					</p>
+					<a href="/about">了解更多 <span aria-hidden="true">→</span></a>
+				</div>
+			</section>
+
+			<section class="exploring" aria-label="当前关注方向">
+				<span>Currently exploring</span>
+				<div>
+					<span>C</span><i>·</i><span>Swift</span><i>·</i><span>iOS</span><i>·</i
+					><span>AI Engineering</span>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	main {
+		width: min(1040px, calc(100% - 2rem));
+		max-width: none;
+		padding: 0 0 5rem;
+	}
+	.hero {
+		padding: clamp(5rem, 12vw, 9rem) 0 clamp(5rem, 10vw, 8rem);
+	}
+	.eyebrow,
+	.section-label {
+		margin: 0 0 0.8rem;
+		color: rgb(var(--accent));
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+	}
+	.hero h1 {
+		max-width: 900px;
+		margin: 0;
+		font-size: clamp(3rem, 8.5vw, 6.6rem);
+		letter-spacing: -0.06em;
+		line-height: 0.98;
+	}
+	.hero h1 span {
+		color: rgb(var(--gray));
+	}
+	.hero-description {
+		max-width: 640px;
+		margin: 2rem 0 0;
+		color: rgb(var(--gray));
+		font-size: clamp(1.05rem, 2vw, 1.25rem);
+	}
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.8rem;
+		margin-top: 2.25rem;
+	}
+	.button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.75rem 1.2rem;
+		border: 1px solid rgb(var(--black));
+		border-radius: 999px;
+		font-size: 0.92rem;
+		font-weight: 700;
+		text-decoration: none;
+		transition: transform 160ms ease, box-shadow 160ms ease;
+	}
+	.button:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 20px rgba(var(--gray), 0.15);
+	}
+	.button.primary {
+		color: white;
+		background: rgb(var(--black));
+	}
+	.button.secondary {
+		gap: 0.35rem;
+		color: rgb(var(--black));
+		background: white;
+	}
+	.section {
+		padding: 5rem 0;
+		border-top: 1px solid rgb(var(--gray-light));
+	}
+	.section-heading {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-bottom: 2rem;
+	}
+	.section-heading h2,
+	.about-card h2 {
+		margin: 0;
+		font-size: clamp(2rem, 5vw, 3.25rem);
+		letter-spacing: -0.045em;
+	}
+	.section-heading > a,
+	.about-card a {
+		color: rgb(var(--black));
+		font-size: 0.9rem;
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.section-heading > a:hover,
+	.about-card a:hover {
+		color: rgb(var(--accent));
+	}
+	.topic-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+	}
+	.topic-card {
+		--topic-color: #3155a6;
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		gap: 1.2rem;
+		align-items: center;
+		padding: 1.6rem;
+		color: rgb(var(--black));
+		border: 1px solid rgb(var(--gray-light));
+		border-radius: 20px;
+		background: rgba(255, 255, 255, 0.8);
+		text-decoration: none;
+		transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+	}
+	.topic-card.ios {
+		--topic-color: #c44880;
+	}
+	.topic-card:hover {
+		transform: translateY(-3px);
+		border-color: var(--topic-color);
+		box-shadow: 0 14px 30px rgba(var(--gray), 0.12);
+	}
+	.topic-mark {
+		display: grid;
+		width: 58px;
+		height: 58px;
+		place-items: center;
+		color: white;
+		border-radius: 16px;
+		background: var(--topic-color);
+		font-weight: 700;
+	}
+	.topic-card p {
+		margin: 0 0 0.1rem;
+		color: var(--topic-color);
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+	.topic-card h3 {
+		margin: 0 0 0.2rem;
+		font-size: 1.35rem;
+	}
+	.topic-card div > span {
+		color: rgb(var(--gray));
+		font-size: 0.85rem;
+	}
+	.arrow {
+		color: var(--topic-color);
+		font-size: 1.25rem;
+	}
+	.update-list {
+		border-top: 1px solid rgb(var(--gray-light));
+	}
+	.update-list > a {
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		gap: 1rem;
+		align-items: center;
+		padding: 1.2rem 0;
+		color: rgb(var(--black));
+		border-bottom: 1px solid rgb(var(--gray-light));
+		text-decoration: none;
+	}
+	.update-list > a:hover strong,
+	.update-list > a:hover .update-arrow {
+		color: rgb(var(--accent));
+	}
+	.update-tag {
+		min-width: 2.8rem;
+		padding: 0.2rem 0.55rem;
+		color: #3155a6;
+		border-radius: 999px;
+		background: #eef2ff;
+		font-size: 0.72rem;
+		font-weight: 700;
+		text-align: center;
+	}
+	.update-tag.ios {
+		color: #a82f66;
+		background: #fff0f6;
+	}
+	.update-list strong,
+	.update-list div > span {
+		display: block;
+	}
+	.update-list div > span,
+	.updates-note {
+		color: rgb(var(--gray));
+		font-size: 0.84rem;
+	}
+	.update-arrow {
+		font-size: 1.2rem;
+	}
+	.updates-note {
+		margin: 1.25rem 0 0;
+	}
+	.about-card {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: clamp(2rem, 8vw, 6rem);
+		padding: clamp(2rem, 6vw, 4rem);
+		border-radius: 28px;
+		background: rgb(var(--black));
+	}
+	.about-card h2,
+	.about-card p {
+		color: white;
+	}
+	.about-card p {
+		margin-top: 0;
+		color: rgba(255, 255, 255, 0.72);
+	}
+	.about-card a {
+		color: white;
+	}
+	.exploring {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 2rem 0;
+		color: rgb(var(--gray));
+		font-size: 0.82rem;
+	}
+	.exploring > span {
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+	.exploring div {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.65rem;
+		justify-content: flex-end;
+	}
+	.exploring i {
+		color: rgb(var(--gray-light));
+		font-style: normal;
+	}
+	@media (max-width: 720px) {
+		main {
+			width: min(100% - 2rem, 1040px);
+			padding: 0 0 3rem;
+		}
+		.hero {
+			padding: 4rem 0;
+		}
+		.section {
+			padding: 3.5rem 0;
+		}
+		.topic-grid,
+		.about-card {
+			grid-template-columns: 1fr;
+		}
+		.topic-card {
+			grid-template-columns: auto 1fr;
+			padding: 1.25rem;
+		}
+		.topic-card .arrow {
+			display: none;
+		}
+		.about-card {
+			gap: 1.5rem;
+		}
+		.exploring {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+		.exploring div {
+			justify-content: flex-start;
+		}
+	}
+</style>
