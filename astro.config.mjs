@@ -5,9 +5,10 @@ import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	// Set SITE_URL to the production origin when deploying, for example:
-	// SITE_URL=https://blog.example.com npm run build
+	// GitHub Pages sets these values in the deployment workflow. Local development
+	// keeps using the root path at http://localhost:4321.
 	site: process.env.SITE_URL ?? 'http://localhost:4321',
+	base: process.env.BASE_PATH ?? '/',
 	integrations: [sitemap()],
 	fonts: [
 		{
