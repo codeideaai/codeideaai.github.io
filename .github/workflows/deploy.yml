@@ -28,7 +28,6 @@ jobs:
           package-manager: pnpm@11.13.0
         env:
           SITE_URL: https://codeideaai.github.io
-          BASE_PATH: /codeideaai
 
   deploy:
     needs: build
