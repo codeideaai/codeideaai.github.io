@@ -37,6 +37,10 @@ SITE_URL=https://blog.example.com pnpm build
 
 构建产物位于 `dist/`。
 
+## 访问统计
+
+正式站点通过 [Vercount](https://vercount.one/) 统计全站访问量和访客数，并在页脚展示。统计脚本仅在 `codeideaai.github.io` 的生产构建中启用，本地开发不会产生统计数据。
+
 ## 常用命令
 
 | 命令 | 用途 |

@@ -15,6 +15,7 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const enableVisitorCounter = Astro.site?.hostname === 'codeideaai.github.io';
 
 const { title, description, image = FallbackImage } = Astro.props;
 ---
@@ -51,3 +52,10 @@ const { title, description, image = FallbackImage } = Astro.props;
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
+
+<!-- Privacy-friendly visitor counter; only enabled for the production site. -->
+{
+	enableVisitorCounter && (
+		<script is:inline defer src="https://events.vercount.one/js"></script>
+	)
+}

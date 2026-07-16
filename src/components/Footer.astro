@@ -1,8 +1,18 @@
 ---
 const today = new Date();
+const enableVisitorCounter = Astro.site?.hostname === 'codeideaai.github.io';
 ---
 
 <footer>
+	{
+		enableVisitorCounter && (
+			<p class="visitor-stats" aria-label="网站访问统计" aria-live="polite">
+				总访问 <span id="vercount_value_site_pv">—</span> 次
+				<span class="separator" aria-hidden="true">·</span>
+				访客 <span id="vercount_value_site_uv">—</span> 人
+			</p>
+		)
+	}
 	<p>&copy; {today.getFullYear()} CodeIdea AI. All rights reserved.</p>
 	<a href="https://github.com/codeideaai" target="_blank" rel="noreferrer">
 		<span class="sr-only">访问 CodeIdea AI 的 GitHub 主页</span>
@@ -27,5 +37,19 @@ const today = new Date();
 	}
 	footer a:hover {
 		color: rgb(var(--gray-dark));
+	}
+	.visitor-stats {
+		margin: 0 0 0.4rem;
+		font-size: 0.82rem;
+		letter-spacing: 0.02em;
+	}
+	.visitor-stats span:not(.separator) {
+		color: rgb(var(--gray-dark));
+		font-variant-numeric: tabular-nums;
+		font-weight: 700;
+	}
+	.separator {
+		margin: 0 0.45rem;
+		color: rgb(var(--gray-light));
 	}
 </style>
