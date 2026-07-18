@@ -19,4 +19,11 @@ export const BLOG_REPOSITORIES = [
 		href: 'https://codeideaai.github.io/ios/',
 		accent: 'ios',
 	},
+	{
+		name: 'React',
+		tagline: 'Web Interfaces',
+		description: 'React、前端开发与 Web 工程实践。',
+		href: 'https://codeideaai.github.io/react/',
+		accent: 'react',
+	},
 ] as const;
