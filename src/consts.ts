@@ -34,7 +34,7 @@ export const BLOG_REPOSITORIES = [
 		title: 'Linux 黑客基础笔记',
 		tagline: 'Linux Basics for Hackers',
 		description: '《Linux Basics for Hackers》中文课程笔记，涵盖终端、网络、权限管理与脚本实践。',
-		href: 'https://github.com/codeideaai/linux-basics-for-hackers-notes',
+		href: 'https://codeideaai.github.io/linux-basics-for-hackers-notes/',
 		accent: 'linux',
 	},
 ] as const;
