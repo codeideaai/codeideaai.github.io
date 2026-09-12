@@ -18,7 +18,7 @@ const pageDescription = '按技术方向浏览 CodeIdea AI 的博客内容。';
 			<header class="page-heading">
 				<p class="eyebrow">BLOG COLLECTIONS</p>
 				<h1>选择一个技术方向</h1>
-				<p>文章按语言和平台分别维护，选择下面的专题进入对应的博客站点。</p>
+				<p>内容按技术方向分别维护，选择下面的专题查看博客或学习笔记。</p>
 			</header>
 
 			<ul class="repository-grid">
@@ -36,9 +36,9 @@ const pageDescription = '按技术方向浏览 CodeIdea AI 的博客内容。';
 									<span class="external-arrow" aria-hidden="true">↗</span>
 								</div>
 								<p class="tagline">{repository.tagline}</p>
-								<h2>{repository.name} 博客</h2>
+								<h2>{repository.title}</h2>
 								<p class="description">{repository.description}</p>
-								<span class="visit-link">进入专题博客</span>
+								<span class="visit-link">查看专题内容</span>
 							</a>
 						</li>
 					))
@@ -124,6 +124,10 @@ const pageDescription = '按技术方向浏览 CodeIdea AI 的博客内容。';
 	.repository-card.react {
 		--card-accent: #087ea4;
 		--card-glow: #58c4dc;
+	}
+	.repository-card.linux {
+		--card-accent: #28734f;
+		--card-glow: #8aca9e;
 	}
 	.repository-card:hover {
 		transform: translateY(-5px);

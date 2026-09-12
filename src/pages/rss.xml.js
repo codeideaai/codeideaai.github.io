@@ -7,7 +7,7 @@ export async function GET(context) {
 		description: SITE_DESCRIPTION,
 		site: context.site,
 		items: BLOG_REPOSITORIES.map((repository) => ({
-			title: `${repository.name} 博客`,
+			title: repository.title,
 			description: repository.description,
 			link: repository.href,
 		})),

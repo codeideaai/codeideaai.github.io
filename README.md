@@ -15,12 +15,14 @@ pnpm dev
 
 ## 博客专题
 
-`/blog` 页面目前聚合两个独立维护的专题仓库：
+`/blog` 页面目前聚合以下独立维护的博客与学习笔记：
 
 - [C 博客](https://codeideaai.github.io/c/)
 - [iOS 博客](https://codeideaai.github.io/ios/)
+- [React 博客](https://codeideaai.github.io/react/)
+- [Linux 黑客基础笔记](https://github.com/codeideaai/linux-basics-for-hackers-notes)
 
-入口信息统一配置在 `src/consts.ts` 的 `BLOG_REPOSITORIES` 中，并同时用于博客页面和 RSS。
+入口信息统一配置在 `src/consts.ts` 的 `BLOG_REPOSITORIES` 中，并同时用于首页、博客页面和 RSS。
 
 ## 构建
 
