@@ -1,5 +1,6 @@
 ---
 import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
+import WechatSearchImage from '../assets/wechat-search-codeideaai.png';
 import Layout from '../layouts/BlogPost.astro';
 ---
 
@@ -18,4 +19,13 @@ import Layout from '../layouts/BlogPost.astro';
 	<p>
 		你可以在 <a href="https://github.com/codeideaai">GitHub</a> 找到我的开源项目。
 	</p>
+	<h2>联系我</h2>
+	<p>也可以使用微信扫一扫，或搜索 CODEIDEAAI 找到我。</p>
+	<img
+		src={WechatSearchImage.src}
+		width={WechatSearchImage.width}
+		height={WechatSearchImage.height}
+		alt="微信搜一搜二维码，搜索词 CODEIDEAAI"
+		loading="lazy"
+	/>
 </Layout>
