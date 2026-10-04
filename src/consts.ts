@@ -37,4 +37,12 @@ export const BLOG_REPOSITORIES = [
 		href: 'https://codeideaai.github.io/linux-basics-for-hackers-notes/',
 		accent: 'linux',
 	},
+	{
+		name: 'Java',
+		title: '一步步手写 Spring',
+		tagline: 'Spring from Scratch',
+		description: '从 IoC 到 MVC、AOP 与事务，亲手实现框架核心。每篇附完整代码与运行示例。',
+		href: 'https://codeideaai.github.io/spring-from-scratch/',
+		accent: 'c',
+	},
 ] as const;
