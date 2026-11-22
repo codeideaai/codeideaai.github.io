@@ -50,7 +50,7 @@ export const BLOG_REPOSITORIES = [
 		title: '从零写一个 Web 框架',
 		tagline: 'Pocket Framework',
 		description: '14 篇中英双语文章，从第一个 HTTP 请求到完整笔记服务，配套可运行的 Go 示例。',
-		href: 'https://github.com/codeideaai/pocket-framework',
+		href: 'https://codeideaai.github.io/pocket-framework/zh.html',
 		accent: 'react',
 	},
 ] as const;
