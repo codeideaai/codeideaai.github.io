@@ -1,0 +1,222 @@
+[
+  {
+    "objectID": "chapters/05.html",
+    "href": "chapters/05.html",
+    "title": "从零写一个 Agent（05）：配置 API Key 并读懂示例 trace",
+    "section": "",
+    "text": "本篇通过一份合成 trace解释一次只读请求。它保留真实 API 数据中用于关联的字段形状，但 ID、文字和结果都是示例值，不包含真实账号数据，也不需要 API Key 就能阅读。",
+    "crumbs": [
+      "05 · API Key 与示例 trace"
+    ]
+  },
+  {
+    "objectID": "chapters/05.html#先理解-api-key-的用途",
+    "href": "chapters/05.html#先理解-api-key-的用途",
+    "title": "从零写一个 Agent（05）：配置 API Key 并读懂示例 trace",
+    "section": "先理解 API Key 的用途",
+    "text": "先理解 API Key 的用途\nAPI Key 只应由发起请求的本机应用或服务端读取。不要把它放到浏览器代码、公开仓库、网页或可分享的调试输出里。如果要把第 4 篇的模拟客户端换成真实客户端，请按官方文档在自己的环境中配置密钥。\nOpenAI API 快速入门",
+    "crumbs": [
+      "05 · API Key 与示例 trace"
+    ]
+  },
+  {
+    "objectID": "chapters/05.html#第一步模型请求读取预置样例",
+    "href": "chapters/05.html#第一步模型请求读取预置样例",
+    "title": "从零写一个 Agent（05）：配置 API Key 并读懂示例 trace",
+    "section": "第一步：模型请求读取预置样例",
+    "text": "第一步：模型请求读取预置样例\n这里仅展示本例依赖的字段：\n{\n  \"id\": \"resp_demo_first\",\n  \"output\": [\n    {\n      \"type\": \"function_call\",\n      \"name\": \"read_sample\",\n      \"arguments\": \"{\\\"name\\\":\\\"pyproject\\\"}\",\n      \"call_id\": \"call_demo_read\"\n    }\n  ]\n}\narguments 是 JSON 字符串。应用先验证工具和参数，再读取内置样例，不让模型指定任意文件。",
+    "crumbs": [
+      "05 · API Key 与示例 trace"
+    ]
+  },
+  {
+    "objectID": "chapters/05.html#第二步应用回传工具结果",
+    "href": "chapters/05.html#第二步应用回传工具结果",
+    "title": "从零写一个 Agent（05）：配置 API Key 并读懂示例 trace",
+    "section": "第二步：应用回传工具结果",
+    "text": "第二步：应用回传工具结果\n{\n  \"previous_response_id\": \"resp_demo_first\",\n  \"input\": [\n    {\n      \"type\": \"function_call_output\",\n      \"call_id\": \"call_demo_read\",\n      \"output\": \"{\\\"text\\\":\\\"[project]\\\\nname = \\\\\\\"first-agent-demo\\\\\\\"\\\\ndependencies = [\\\\\\\"openai\\\\\\\"]\\\"}\"\n    }\n  ]\n}\nprevious_response_id 指回第一轮响应，call_id 则必须和工具请求完全一致。这两条关联不能互换。",
+    "crumbs": [
+      "05 · API Key 与示例 trace"
+    ]
+  },
+  {
+    "objectID": "chapters/05.html#第三步模型返回总结",
+    "href": "chapters/05.html#第三步模型返回总结",
+    "title": "从零写一个 Agent（05）：配置 API Key 并读懂示例 trace",
+    "section": "第三步：模型返回总结",
+    "text": "第三步：模型返回总结\n{\n  \"id\": \"resp_demo_second\",\n  \"previous_response_id\": \"resp_demo_first\",\n  \"output\": [\n    {\n      \"type\": \"message\",\n      \"content\": [{\"type\": \"output_text\", \"text\": \"示例项目依赖 openai。\"}]\n    }\n  ]\n}\n最后一轮不含 function_call，循环就返回文本。分享真实 trace 前，应重新制作最小示例或至少去除真实 ID、账号信息、路径、密钥和不透明的追踪字段。不要仅靠隐藏网页里的某一段文字，搜索索引也可能包含同一内容。\nOpenAI 函数调用文档",
+    "crumbs": [
+      "05 · API Key 与示例 trace"
+    ]
+  },
+  {
+    "objectID": "chapters/03.html",
+    "href": "chapters/03.html",
+    "title": "从零写一个 Agent（03）：实现本地工具和工具说明",
+    "section": "",
+    "text": "工具有两部分：本地执行的函数，以及告诉模型怎样请求它的工具说明。公开示例只提供读取预置样例的工具；模型不能指定任意路径、写文件或运行命令。",
+    "crumbs": [
+      "03 · 本地工具与工具说明"
+    ]
+  },
+  {
+    "objectID": "chapters/03.html#写一个只读样例工具",
+    "href": "chapters/03.html#写一个只读样例工具",
+    "title": "从零写一个 Agent（03）：实现本地工具和工具说明",
+    "section": "写一个只读样例工具",
+    "text": "写一个只读样例工具\n下面的函数按名字返回一份固定的示例配置，不会访问读者电脑上的文件。用这个小例子先验证函数行为，再接入模型。\nSAMPLES = {\n    \"pyproject\": \"[project]\\nname = \\\"first-agent-demo\\\"\\ndependencies = [\\\"openai\\\"]\\n\",\n}\n\n\ndef read_sample(name: str) -&gt; str:\n    if name not in SAMPLES:\n        raise ValueError(\"Unknown sample\")\n    return SAMPLES[name]\n\n\nassert 'name = \"first-agent-demo\"' in read_sample(\"pyproject\")",
+    "crumbs": [
+      "03 · 本地工具与工具说明"
+    ]
+  },
+  {
+    "objectID": "chapters/03.html#用普通字典描述工具",
+    "href": "chapters/03.html#用普通字典描述工具",
+    "title": "从零写一个 Agent（03）：实现本地工具和工具说明",
+    "section": "用普通字典描述工具",
+    "text": "用普通字典描述工具\nread_sample_tool = {\n    \"type\": \"function\",\n    \"name\": \"read_sample\",\n    \"description\": \"Read a built-in tutorial sample.\",\n    \"parameters\": {\n        \"type\": \"object\",\n        \"properties\": {\n            \"name\": {\"type\": \"string\", \"enum\": [\"pyproject\"]},\n        },\n        \"required\": [\"name\"],\n        \"additionalProperties\": False,\n    },\n    \"strict\": True,\n}\n\n\n\n字段\n含义\n\n\n\n\ntype\n值为 function，表示由应用执行函数。\n\n\nname 和 description\n工具名称及用途，供模型选择。\n\n\nparameters\n参数的 JSON Schema；本例只接受一个固定样例名。\n\n\nstrict\n要求工具参数遵循 Schema。\n\n\n\nSchema 约束输入的形状；应用仍要检查样例名，并决定哪些函数能执行。工具描述不是权限控制，也不应该让模型直接接触任意文件或 Shell。下一篇把请求、工具结果和下一次模型调用串起来。\nOpenAI 函数调用文档",
+    "crumbs": [
+      "03 · 本地工具与工具说明"
+    ]
+  },
+  {
+    "objectID": "chapters/01.html",
+    "href": "chapters/01.html",
+    "title": "从零写一个 Agent（01）：搭建 Python 项目",
+    "section": "",
+    "text": "本系列从空目录开始，逐步构建一个可以在终端运行的 Python Agent。第一篇先搭好项目：初始化 Python 包、注册命令入口、安装依赖，再用 uv sync 检查环境。示例使用 Python 3.12，开始前请确认 uv --version 可以运行。",
+    "crumbs": [
+      "01 · 搭建 Python 项目"
+    ]
+  },
+  {
+    "objectID": "chapters/01.html#新建一个带命令入口的项目",
+    "href": "chapters/01.html#新建一个带命令入口的项目",
+    "title": "从零写一个 Agent（01）：搭建 Python 项目",
+    "section": "新建一个带命令入口的项目",
+    "text": "新建一个带命令入口的项目\n准备一个新目录，在上一级目录运行：\nuv init --package --python 3.12 first_agent\ncd first_agent\n--package 让 uv 初始化一个可安装的应用包，--python 3.12 指定项目的 Python 版本。完成后，项目环境可以安装包和它注册的命令。 uv 项目初始化文档\n初始目录中有这些文件：\n\n\n\n\n\n\n\n路径\n用途\n\n\n\n\npyproject.toml\n声明包名、依赖、构建后端和命令入口\n\n\n.python-version\n给 uv 指定这个目录优先用的 Python 版本\n\n\nsrc/first_agent/__init__.py\nPython 包的入口模块，先在这里定义 main()\n\n\nREADME.md、.gitignore\n项目说明和 Git 忽略规则\n\n\n\n把最小入口写成：\ndef main() -&gt; None:\n    print(\"Hello from first-agent!\")\n项目里的 pyproject.toml 注册了命令：\n[project.scripts]\nfirst-agent = \"first_agent:main\"\n左边是终端里的命令名。右边冒号前是导入包名，冒号后是 Python 函数名。在终端运行 first-agent 时，安装生成的入口会导入 first_agent 并调用 main()。在依赖同步后可以运行：\nuv run first-agent\n# Hello from first-agent!",
+    "crumbs": [
+      "01 · 搭建 Python 项目"
+    ]
+  },
+  {
+    "objectID": "chapters/01.html#添加运行时依赖和开发依赖",
+    "href": "chapters/01.html#添加运行时依赖和开发依赖",
+    "title": "从零写一个 Agent（01）：搭建 Python 项目",
+    "section": "添加运行时依赖和开发依赖",
+    "text": "添加运行时依赖和开发依赖\n用 uv add 分别声明应用依赖和开发依赖：\nuv add openai\nuv add --dev pytest\nopenai 是程序调用 API 时需要的运行时依赖，写进 [project] 下的 dependencies。pytest 用来开发和测试，写进 [dependency-groups] 下的 dev。示例项目中的版本约束是 openai&gt;=3.57.0 和 pytest&gt;=9.2.0。在新项目中执行 uv add 时，具体版本会随包索引和项目约束变化。\n\n\n\n文件或目录\n记录什么\n\n\n\n\npyproject.toml\n项目接受的依赖版本范围\n\n\nuv.lock\nuv 解析出的具体版本和依赖关系\n\n\n.venv/\n本机实际安装的 Python 包\n\n\n\n安装环境是本地状态，仓库里提交的是依赖声明和锁文件。",
+    "crumbs": [
+      "01 · 搭建 Python 项目"
+    ]
+  },
+  {
+    "objectID": "chapters/01.html#验证虚拟环境是否已经同步",
+    "href": "chapters/01.html#验证虚拟环境是否已经同步",
+    "title": "从零写一个 Agent（01）：搭建 Python 项目",
+    "section": "验证虚拟环境是否已经同步",
+    "text": "验证虚拟环境是否已经同步\n在项目根目录运行以下命令，分别检查环境同步、测试工具版本和 Git 工作区：\nuv sync\nuv run pytest --version\ngit status --short\n如果刚执行过 uv add，环境通常已同步。示例输出为 Resolved 22 packages 和 Checked 20 packages，这次无需重新安装包。pytest 输出 pytest 9.2.0，表明项目环境里已经可以运行测试工具。\n首次拿到项目时，情况不同。如果没有 .venv，uv sync 会创建环境并安装锁定的依赖，默认包括 dev 组。如果环境里有不属于本次同步范围的包，默认会移除它们。只想预演这个动作，可以运行 uv sync --dry-run。 uv 锁定与同步文档\n完成本篇后，uv run first-agent 应能运行项目入口，uv run pytest --version 应能找到开发依赖。下一篇把项目和锁文件推送到 GitHub。",
+    "crumbs": [
+      "01 · 搭建 Python 项目"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "从零写一个 Agent",
+    "section": "",
+    "text": "从空目录开始，逐步写一个能在终端运行的 Python Agent。本系列用固定文本样例讲解模型如何请求工具、应用如何执行以及如何把结果回传。\n\n\n\n章节\n会学到什么\n\n\n\n\n01 · 搭建 Python 项目\n用 uv 初始化项目、安装依赖并注册命令行入口。\n\n\n02 · GitHub SSH 与推送\n连接 GitHub，理解远端和分支跟踪。\n\n\n03 · 本地工具与工具说明\n区分本地函数和给模型看的工具定义。\n\n\n04 · 工具调用循环与 CLI\n追踪请求、执行和结果回传，并测试循环。\n\n\n05 · API Key 与示例 trace\n用合成数据读懂每一轮工具调用。\n\n\n\n阅读网页不执行任何代码，也不需要 API Key。公开示例只读取内置样例，不执行模型提供的 Shell 命令。",
+    "crumbs": [
+      "课程导读"
+    ]
+  },
+  {
+    "objectID": "chapters/02.html",
+    "href": "chapters/02.html",
+    "title": "从零写一个 Agent（02）：配置 GitHub SSH 并推送 main",
+    "section": "",
+    "text": "本篇将本地的 first_agent 推送到 GitHub，并把 main 设置为跟踪远端的分支。流程分三步：准备本地提交、确认 SSH 认证、设置远端并验证推送。",
+    "crumbs": [
+      "02 · GitHub SSH 与推送"
+    ]
+  },
+  {
+    "objectID": "chapters/02.html#准备本地提交和-github-仓库",
+    "href": "chapters/02.html#准备本地提交和-github-仓库",
+    "title": "从零写一个 Agent（02）：配置 GitHub SSH 并推送 main",
+    "section": "准备本地提交和 GitHub 仓库",
+    "text": "准备本地提交和 GitHub 仓库\n在 GitHub 创建准备接收本地提交的空仓库。然后在项目目录检查工作区和远端：\ngit status --short --branch\ngit remote -v\n如果初始化时还没有创建 Git 仓库，先用 git init。如果是按顺序完成第 1 篇，项目已经生成了 uv.lock，首次提交时把它与项目骨架一起纳入版本管理：\ngit add -- .gitignore .python-version README.md pyproject.toml uv.lock src/\ngit commit -m 'Initialize first_agent'\ngit branch -M main\n如果在添加依赖前就做初始化提交，这时还没有 uv.lock，把它留到首次添加依赖的那条提交。\nGit 根据远端 URL 选择认证方式。以 https://github.com/ 开头时使用 HTTPS 凭据，以 git@github.com: 开头时使用 SSH。若配置 SSH 公钥后推送仍出现 could not read Username，先运行 git remote -v 检查是否还在用 HTTPS。",
+    "crumbs": [
+      "02 · GitHub SSH 与推送"
+    ]
+  },
+  {
+    "objectID": "chapters/02.html#验证-ssh-认证",
+    "href": "chapters/02.html#验证-ssh-认证",
+    "title": "从零写一个 Agent（02）：配置 GitHub SSH 并推送 main",
+    "section": "验证 SSH 认证",
+    "text": "验证 SSH 认证\n先测试 SSH 认证：\nssh -T git@github.com\n看到 Hi USERNAME! You've successfully authenticated 就说明这次密钥认证成功。后半句会说明 GitHub 不提供交互式 Shell，因此成功认证时这条测试命令仍可能退出为 1。需要核对具体是哪把公钥，可以用 ssh-keygen -lf 路径.pub 查看指纹，再跟 GitHub 的 Settings → SSH and GPG keys 对照。只比较公钥指纹即可。 GitHub SSH 连接测试\n如果认证用户名正确、公钥指纹也匹配，可以直接复用现有密钥。尚未配置密钥时，按 GitHub 的说明生成并登记公钥，再重新运行连接测试。 GitHub SSH 密钥配置",
+    "crumbs": [
+      "02 · GitHub SSH 与推送"
+    ]
+  },
+  {
+    "objectID": "chapters/02.html#让-git-使用-ssh-地址",
+    "href": "chapters/02.html#让-git-使用-ssh-地址",
+    "title": "从零写一个 Agent（02）：配置 GitHub SSH 并推送 main",
+    "section": "让 Git 使用 SSH 地址",
+    "text": "让 Git 使用 SSH 地址\n把 YOUR-GITHUB-USERNAME 换成自己的账号。如果还没有 origin，用 git remote add origin &lt;SSH 地址&gt;。已有远端时，运行下面示例的第一行。无论使用哪条配置命令，接下来都从 git remote -v 开始验证。\ngit remote set-url origin git@github.com:YOUR-GITHUB-USERNAME/first_agent.git\ngit remote -v\ngit push --dry-run origin main\ngit push -u origin main\n试推送显式指定远端和分支，初次推送也能照做。真正的 git push -u origin main 会把本地 main 与 origin/main 建立跟踪关系。后续提交只需要 git push。",
+    "crumbs": [
+      "02 · GitHub SSH 与推送"
+    ]
+  },
+  {
+    "objectID": "chapters/02.html#正常提交与修改上一条提交说明",
+    "href": "chapters/02.html#正常提交与修改上一条提交说明",
+    "title": "从零写一个 Agent（02）：配置 GitHub SSH 并推送 main",
+    "section": "正常提交与修改上一条提交说明",
+    "text": "正常提交与修改上一条提交说明\n后续新增或调整依赖时，把依赖声明和锁文件一起提交。下面以新增 pytest 为例。如果第 1 篇已添加过 pytest，等下一次依赖有变化时再提交：\ngit diff --check\ngit add -- pyproject.toml uv.lock\ngit commit -m 'uv add --dev pytest'\ngit push\n如果只需修改最近一次提交的说明，可以运行 git commit --amend --only -m 'uv add openai'。--only 会沿用原提交的文件内容，暂存区里的其他改动不会随这次修改进入提交。修改后提交 ID 会变化。\n如果原提交已经推送，更新远端属于重写历史。仅在允许重写的个人分支上操作，先用 git ls-remote origin refs/heads/main 核对远端仍指向你准备替换的提交。带明确旧提交 ID 的 --force-with-lease=refs/heads/main:&lt;旧提交ID&gt; 会在远端已有他人更新时拒绝推送。共享分支或受保护分支应遵循团队规则。 Git push 文档\n推送后运行 git status --short --branch。若显示 ## main...origin/main 且没有 ahead 或 behind 提示，本地分支和本地记录的远端跟踪分支一致。下一篇开始实现三个本地工具。",
+    "crumbs": [
+      "02 · GitHub SSH 与推送"
+    ]
+  },
+  {
+    "objectID": "chapters/04.html",
+    "href": "chapters/04.html",
+    "title": "从零写一个 Agent（04）：实现工具调用循环和命令行入口",
+    "section": "",
+    "text": "本篇把上一章的 read_sample 连到 Responses API。模型只看到一个读预置文本的工具，程序用固定分支执行它，最多执行三轮。网页展示代码，不在浏览器里运行。",
+    "crumbs": [
+      "04 · 工具调用循环与 CLI"
+    ]
+  },
+  {
+    "objectID": "chapters/04.html#一次工具调用的三个步骤",
+    "href": "chapters/04.html#一次工具调用的三个步骤",
+    "title": "从零写一个 Agent（04）：实现工具调用循环和命令行入口",
+    "section": "一次工具调用的三个步骤",
+    "text": "一次工具调用的三个步骤\n\n把任务和 read_sample_tool 的说明发给模型。\n从输出中筛出 function_call，验证工具名和参数后，在 Python 中执行只读函数。\n用本轮的响应 ID 继续会话，用调用 ID 关联具体的工具结果。\n\n两种 ID 有不同用途：previous_response_id 关联整轮响应，call_id 关联某一次函数调用。下一章会并排展示这些字段。",
+    "crumbs": [
+      "04 · 工具调用循环与 CLI"
+    ]
+  },
+  {
+    "objectID": "chapters/04.html#实现有上限的只读循环",
+    "href": "chapters/04.html#实现有上限的只读循环",
+    "title": "从零写一个 Agent（04）：实现工具调用循环和命令行入口",
+    "section": "实现有上限的只读循环",
+    "text": "实现有上限的只读循环\n将本例与上一章的 read_sample 和 read_sample_tool 放在同一模块。可传入模拟客户端测试，不需要真实密钥。\nimport json\n\n\ndef run_agent(client, model: str, prompt: str) -&gt; str:\n    request_input = prompt\n    previous_response_id = None\n\n    for round_index in range(4):\n        response = client.responses.create(\n            model=model,\n            input=request_input,\n            tools=[read_sample_tool],\n            previous_response_id=previous_response_id,\n            parallel_tool_calls=False,\n        )\n        if response.status != \"completed\":\n            raise RuntimeError(\"Model response did not complete\")\n\n        calls = [item for item in response.output if item.type == \"function_call\"]\n        if not calls:\n            return response.output_text\n        if round_index == 3:\n            break\n\n        request_input = []\n        for call in calls:\n            try:\n                arguments = json.loads(call.arguments)\n                if call.name != \"read_sample\" or arguments != {\"name\": \"pyproject\"}:\n                    raise ValueError(\"Tool or arguments not allowed\")\n                result = {\"text\": read_sample(\"pyproject\")}\n            except (ValueError, TypeError):\n                result = {\"error\": \"Only the built-in pyproject sample is supported\"}\n            request_input.append({\n                \"type\": \"function_call_output\",\n                \"call_id\": call.call_id,\n                \"output\": json.dumps(result, ensure_ascii=False),\n            })\n        previous_response_id = response.id\n\n    raise RuntimeError(\"Reached the tool round limit\")\n测试时模拟两轮响应：第一轮返回工具请求，第二轮返回文本。断言传回的 call_id 与第一轮一致；另外模拟未知工具、无效参数和轮数超限。",
+    "crumbs": [
+      "04 · 工具调用循环与 CLI"
+    ]
+  },
+  {
+    "objectID": "chapters/04.html#接到命令行入口",
+    "href": "chapters/04.html#接到命令行入口",
+    "title": "从零写一个 Agent（04）：实现工具调用循环和命令行入口",
+    "section": "接到命令行入口",
+    "text": "接到命令行入口\n在第 1 篇已有的 main() 中，用标准库 argparse 接收任务文字和模型名。可以先让 --help 工作，用模拟客户端跑通调用循环，再考虑在自己的环境里连接真实 API。公开网页不绑定真实账号，也不代理 API 请求。\nOpenAI Responses API 文档",
+    "crumbs": [
+      "04 · 工具调用循环与 CLI"
+    ]
+  }
+]

@@ -53,4 +53,12 @@ export const BLOG_REPOSITORIES = [
 		href: 'https://codeideaai.github.io/pocket-framework/zh.html',
 		accent: 'react',
 	},
+	{
+		name: 'Python',
+		title: '从零写一个 Agent',
+		tagline: 'First Agent',
+		description: '5 章中文教程，从 Python 项目搭建到只读工具调用循环，用示例 trace 理解请求和结果如何衔接。',
+		href: '/first_agent/',
+		accent: 'react',
+	},
 ] as const;
