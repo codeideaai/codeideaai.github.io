@@ -4,6 +4,8 @@
 export const SITE_TITLE = 'CodeIdea AI';
 export const SITE_DESCRIPTION = '把想法变成代码，记录软件开发、Go、Kotlin 与 AI 实践。';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 export const BLOG_REPOSITORIES = [
 	{
 		name: 'C',
@@ -60,5 +62,13 @@ export const BLOG_REPOSITORIES = [
 		description: '5 章中文教程，从 Python 项目搭建到只读工具调用循环，用示例 trace 理解请求和结果如何衔接。',
 		href: '/first_agent/',
 		accent: 'react',
+	},
+	{
+		name: 'Python',
+		title: '边刷 LeetCode，边学 Python 语法',
+		tagline: 'LeetCode with Python',
+		description: '每篇用一道题练一组 Python 写法，从列表、循环和字典开始。附可运行的解法与边界用例。',
+		href: `${base}/leetcode-python/`,
+		accent: 'c',
 	},
 ] as const;
