@@ -99,4 +99,4 @@ print("全部断言通过")
 
 把最后一行 `return not stack` 临时改成 `return True`，再运行断言。找出失败的输入，写下循环结束时栈里还剩什么。
 
-[回读 · 存在重复元素](../02-contains-duplicate/)
+[回读 · 有效的字母异位词](../03-valid-anagram/)

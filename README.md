@@ -22,7 +22,7 @@ pnpm dev
 - [React 博客](https://codeideaai.github.io/react/)
 - [Linux 黑客基础笔记](https://codeideaai.github.io/linux-basics-for-hackers-notes/)
 
-本站还维护中文专栏「边刷 LeetCode，边学 Python 语法」。可直接阅读 [专栏导读](src/pages/leetcode-python/index.md)、[第 01 篇 · 两数之和](src/pages/leetcode-python/01-two-sum.md)、[第 02 篇 · 存在重复元素](src/pages/leetcode-python/02-contains-duplicate.md)和 [第 04 篇 · 有效的括号](src/pages/leetcode-python/04-valid-parentheses.md)。本地构建后的专栏路径为 `/leetcode-python/`。
+本站还维护中文专栏「边刷 LeetCode，边学 Python 语法」。可直接阅读 [专栏导读](src/pages/leetcode-python/index.md)、[第 01 篇 · 两数之和](src/pages/leetcode-python/01-two-sum.md)、[第 02 篇 · 存在重复元素](src/pages/leetcode-python/02-contains-duplicate.md)、[第 03 篇 · 有效的字母异位词](src/pages/leetcode-python/03-valid-anagram.md)和 [第 04 篇 · 有效的括号](src/pages/leetcode-python/04-valid-parentheses.md)。本地构建后的专栏路径为 `/leetcode-python/`。
 
 入口信息统一配置在 `src/consts.ts` 的 `BLOG_REPOSITORIES` 中，并同时用于首页、博客页面和 RSS。
 

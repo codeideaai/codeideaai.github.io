@@ -105,4 +105,4 @@ print("全部断言通过")
 
 把 `seen.add(value)` 移到 `if value in seen` 前面，再跑一次断言。找出第一个失败的用例，手算这一轮查询前的 `seen` 里已经有什么。
 
-[回读 · 两数之和](../01-two-sum/) · [继续阅读 · 有效的括号](../04-valid-parentheses/)
+[回读 · 两数之和](../01-two-sum/) · [继续阅读 · 有效的字母异位词](../03-valid-anagram/)
